@@ -432,4 +432,9 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 
- 
+
+ DatingApp.sln
+
+.vscode
+
+.config
