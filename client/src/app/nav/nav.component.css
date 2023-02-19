@@ -3,3 +3,7 @@
   color: var(--bs-navbar-brand-color);
   cursor: pointer;
 }
+
+.dropdown-item {
+  cursor: pointer;
+}
