@@ -1,0 +1,5 @@
+.drop-down {
+  text-decoration: none;
+  color: var(--bs-navbar-brand-color);
+  cursor: pointer;
+}
