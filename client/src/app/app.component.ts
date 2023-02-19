@@ -12,10 +12,7 @@ export class AppComponent implements OnInit {
   title = 'hi Angular';
   users: any;
 
-  constructor(
-    private http: HttpClient,
-    private accountService: AccountService
-  ) {}
+  constructor(private accountService: AccountService) {}
 
   setCurrentUser() {
     const user: User = JSON.parse(localStorage.getItem('user') || '{}');
@@ -23,18 +20,18 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUsers();
+    // this.getUsers();
     this.setCurrentUser();
   }
 
-  getUsers() {
-    this.http.get('https://localhost:5001/api/users').subscribe(
-      (res) => {
-        this.users = res;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
+  // getUsers() {
+  //   this.http.get('https://localhost:5001/api/users').subscribe(
+  //     (res) => {
+  //       this.users = res;
+  //     },
+  //     (err) => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
 }
