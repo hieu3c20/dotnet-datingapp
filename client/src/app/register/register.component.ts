@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit {
     this.accountService?.register(this.model).subscribe(
       (res) => {
         console.log(res);
+        
         this.cancel();
       },
       (err) => {
