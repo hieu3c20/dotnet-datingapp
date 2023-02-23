@@ -28,8 +28,10 @@ namespace API
         public Startup(IConfiguration config)
         {
             // this._config = config;
-            _config = config;
+            this._config = config;
         }
+
+        // public IConfiguration _config { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
