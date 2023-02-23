@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
   <div class="container">
     <a class="navbar-brand" routerLink="/" routerLinkActive="active"
       >DatingApp</a
@@ -35,9 +35,9 @@
       </ng-container>
     </ul>
 
-    <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
+    <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
       <a class="drop-down text-ligt" dropdownToggle
-        >Welcome user <b>&#9735;</b></a
+        >Welcome {{user.username | titlecase}}  <b>&#9735;</b></a
       >
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item">Edit profile</a>
