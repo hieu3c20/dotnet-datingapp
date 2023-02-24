@@ -11,6 +11,7 @@ export class TestErrorsComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
   ngOnInit(): void {}
+  validationErrors: string[] = []
 
   get404Error() {
     this.http.get(this.baseUrl + 'buggy/not-found').subscribe(
@@ -63,6 +64,7 @@ export class TestErrorsComponent implements OnInit {
       },
       (error) => {
         console.log(error);
+        this.validationErrors = error
       }
     );
   }
