@@ -31,11 +31,13 @@ export class ErrorInterceptor implements HttpInterceptor {
                 }
                 throw modalStateErrors.flat();
               } else {
+                error.statusText = 'bad-request';
                 this.toastr.error(error.statusText, error.status);
               }
               break;
 
             case 401:
+              error.statusText = 'unauthorized';
               this.toastr.error(error.statusText, error.status);
               break;
 
