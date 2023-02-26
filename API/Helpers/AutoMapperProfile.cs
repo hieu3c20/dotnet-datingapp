@@ -1,19 +1,20 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using AutoMapper;
 
 namespace API.Helpers
 {
-  public class AutoMapperProfile : Profile
-  {
-    public AutoMapperProfile()
+    public class AutoMapperProfile : Profile
     {
-        CreateMap<AppUser, MemberDto>();
-        CreateMap<Photo, PhotoDto>();
+        public AutoMapperProfile()
+        {
+            CreateMap<AppUser, MemberDto>()
+                .ForMember(
+                    dest => dest.PhotoUrl,
+                    opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.isMain).url)
+                );
+            CreateMap<Photo, PhotoDto>();
+        }
     }
-  }
 }
