@@ -16,15 +16,17 @@ namespace API
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
-            try {
+            try
+            {
                 var context = services.GetRequiredService<DataContext>();
                 await context.Database.MigrateAsync();
                 await Seed.SeedUsers(context);
-             }
-            catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 var logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(e, "an error occurred during migration");
-             }
+            }
 
             await host.RunAsync();
         }
