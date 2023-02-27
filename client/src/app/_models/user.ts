@@ -12,12 +12,12 @@ interface Car {
   topSpeed?: number;
 }
 
-const car1 = {
+const car1: Car = {
   color: 'blue',
   model: 'BMW',
 };
 
-const car2 = {
+const car2: Car = {
   color: 'red',
   model: 'Mercedes',
   topSpeed: 100,
