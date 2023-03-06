@@ -1,3 +1,5 @@
+import { LoadingInterceptor } from './_intercepters/loading.interceptors';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { JwtInterceptor } from './_intercepters/jwt.interceptor';
 import { ErrorInterceptor } from './_intercepters/error.interceptor';
 import { SharedModule } from './_modules/shared.module';
@@ -31,11 +33,13 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
 })
