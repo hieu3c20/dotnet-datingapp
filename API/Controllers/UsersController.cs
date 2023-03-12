@@ -12,6 +12,7 @@ using System.Security.Claims;
 using API.Extensions;
 using Microsoft.AspNetCore.Http;
 using API.Services;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -95,6 +96,25 @@ namespace API.Controllers
             }
 
             return BadRequest("Problem adding photo");
+        }
+
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId) {
+            var user = await _userRepository.GetUserByUserNameAsync(User.GetUsername());
+
+            var photo = user.Photos.FirstOrDefault(x => x.Id==photoId);
+
+            if (photo.isMain) return BadRequest("this is already your main photo");
+
+            var currentMain = user.Photos.FirstOrDefault(x => x.isMain);
+
+            if (currentMain != null) currentMain.isMain = false;
+
+            photo.isMain = true;
+
+            if (await _userRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Failed to set main photo");
         }
     }
 }
