@@ -9,8 +9,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PhotoEditorComponent implements OnInit {
   @Input() member: Member;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
-
+  ngOnInit(): void {
+  }
 }
