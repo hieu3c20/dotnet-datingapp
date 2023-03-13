@@ -1,7 +1,7 @@
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from './../_services/account.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -24,27 +24,38 @@ export class RegisterComponent implements OnInit {
   }
 
   initializeForm() {
+    this.registerForm = new FormGroup({
+      username: new FormControl('hi', Validators.required),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(8),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        this.matchValues('password')
+      ]),
+    });
+
     // this.registerForm = new FormGroup({
-    //   username: new FormControl('', Validators.required),
+    //   username: new FormControl('hihihhi', Validators.required),
     //   password: new FormControl('', [
     //     Validators.required,
-    //     Validators.minLength(4),
     //     Validators.maxLength(8),
+    //     Validators.minLength(4),
     //   ]),
-    //   confirmPassword: new FormControl('', [
-    //     Validators.required,
-    //     this.matchValues('password'),
-    //   ]),
+    //   confirmPassword: new FormControl(),
     // });
-
-    this.registerForm = new FormGroup({
-      username: new FormControl(),
-      password: new FormControl(),
-      confirmPassword: new FormControl()
-    })
   }
-  matchValues(arg0: string): import('@angular/forms').ValidatorFn {
-    throw new Error('Method not implemented.');
+
+  matchValues(matchTo: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      return (
+        control?.value === control?.parent?.controls[matchTo].value
+          ? null
+          : { isMatching: true }
+      );
+    };
   }
 
   register() {
