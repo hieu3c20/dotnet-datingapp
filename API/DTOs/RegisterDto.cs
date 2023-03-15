@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs
@@ -14,7 +15,7 @@ namespace API.DTOs
         public string Gender { get; set; }
 
         [Required]
-        public string DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
         public string City { get; set; }
