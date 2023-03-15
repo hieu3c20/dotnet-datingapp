@@ -26,14 +26,13 @@
   <app-text-input
     [formControl]="$any(registerForm.controls['knownAs'])"
     [label]="'Known As'"
-    [type]="'password'"
   ></app-text-input>
 
-  <app-text-input
+  <app-date-input
     [formControl]="$any(registerForm.controls['dateOfBirth'])"
     [label]="'Date of Birth'"
-    [type]="'password'"
-  ></app-text-input>
+    [maxDate]="maxDate"
+  ></app-date-input>
 
   <app-text-input
     [formControl]="$any(registerForm.controls['city'])"

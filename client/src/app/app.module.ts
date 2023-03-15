@@ -26,9 +26,10 @@ import { MemberCardComponent } from './members/member-card/member-card.component
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { DateInputComponent } from './_forms/date-input/date-input.component';
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, HomeComponent, RegisterComponent, MemberListComponent, MemberDetailComponent, ListsComponent, MessagesComponent, TestErrorsComponent, NotFoundComponent, ServerErrorComponent, MemberCardComponent, MemberEditComponent, PhotoEditorComponent, TextInputComponent],
+  declarations: [AppComponent, NavComponent, HomeComponent, RegisterComponent, MemberListComponent, MemberDetailComponent, ListsComponent, MessagesComponent, TestErrorsComponent, NotFoundComponent, ServerErrorComponent, MemberCardComponent, MemberEditComponent, PhotoEditorComponent, TextInputComponent, DateInputComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
