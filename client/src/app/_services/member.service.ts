@@ -1,3 +1,4 @@
+import { UserParams } from './../_models/userParams';
 import { PaginatedResult } from './../_models/pagination';
 import { map, Observable, of } from 'rxjs';
 import { environment } from './../../environments/environment';
@@ -11,31 +12,20 @@ import { Member } from '../_models/member';
 export class MemberService {
   baseUrl = environment.apiUrl;
   members: Member[] = [];
-  paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
 
   constructor(private http: HttpClient) {}
 
-  getMembers(page?: number, itemsPerPage?: number) {
-    let params = new HttpParams();
+  getMembers(userParams: UserParams) {
+    let params = this.getPaginationHeaders(
+      userParams.pageNumber,
+      userParams.pageSize
+    );
 
-    if (page !== null && itemsPerPage !== null) {
-      params = params.append('pageNumber', page.toString());
-      params = params.append('pageSize', itemsPerPage.toString());
-    }
-    return this.http
-      .get<Member[]>(this.baseUrl + 'users', { observe: 'response', params })
-      .pipe(
-        map((res) => {
-          this.paginatedResult.result = res.body;
-          if (res.headers.get('Pagination') !== null) {
-            this.paginatedResult.pagination = JSON.parse(
-              res.headers.get('Pagination')
-            );
-          }
+    params = params.append('minAge', userParams.minAge.toString());
+    params = params.append('maxAge', userParams.maxAge.toString());
+    params = params.append('gender', userParams.gender);
 
-          return this.paginatedResult;
-        })
-      );
+    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params);
   }
 
   getMember(username: string) {
@@ -59,5 +49,30 @@ export class MemberService {
 
   deletePhoto(photoId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
+  }
+
+  private getPaginatedResult<T>(url, params) {
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+    return this.http.get<T>(url, { observe: 'response', params }).pipe(
+      map((res) => {
+        paginatedResult.result = res.body;
+        if (res.headers.get('Pagination') !== null) {
+          paginatedResult.pagination = JSON.parse(
+            res.headers.get('Pagination')
+          );
+        }
+
+        return paginatedResult;
+      })
+    );
+  }
+
+  private getPaginationHeaders(pageNumber: number, pageSize: number) {
+    let params = new HttpParams();
+
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+
+    return params;
   }
 }
