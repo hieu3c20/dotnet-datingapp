@@ -5,6 +5,8 @@ import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Member } from '../_models/member';
+import { AccountService } from './account.service';
+import { User } from '../_models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +15,31 @@ export class MemberService {
   baseUrl = environment.apiUrl;
   members: Member[] = [];
   memberCache = new Map();
+  user: User;
+  userParam: UserParams;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private accountService: AccountService
+  ) {
+    this.accountService.currentUser$.pipe().subscribe((user) => {
+      this.user = user;
+      this.userParam = new UserParams(user);
+    });
+  }
+
+  getUserParams() {
+    return this.userParam;
+  }
+
+  setUserParams(params: UserParams) {
+    this.userParam = params;
+  }
+
+  resetUserParams() {
+    this.userParam = new UserParams(this.user);
+    return this.userParam;
+  }
 
   getMembers(userParams: UserParams) {
     var response = this.memberCache.get(Object.values(userParams).join('-'));
@@ -47,12 +72,10 @@ export class MemberService {
     // const member = this.members.find((x) => x.username === username);
     // if (member !== undefined) return of(member);
     const member = [...this.memberCache.values()]
-      .reduce((arr, elem) => 
-        arr.concat(elem.result), []
-      )
+      .reduce((arr, elem) => arr.concat(elem.result), [])
       .find((member: Member) => member.username === username);
 
-    if (member) { 
+    if (member) {
       return of(member);
     }
 
