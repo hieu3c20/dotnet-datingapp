@@ -12,10 +12,16 @@ import { Member } from '../_models/member';
 export class MemberService {
   baseUrl = environment.apiUrl;
   members: Member[] = [];
+  memberCache = new Map();
 
   constructor(private http: HttpClient) {}
 
   getMembers(userParams: UserParams) {
+    var response = this.memberCache.get(Object.values(userParams).join('-'));
+    if (response) {
+      return of(response);
+    }
+
     let params = this.getPaginationHeaders(
       userParams.pageNumber,
       userParams.pageSize
@@ -26,7 +32,15 @@ export class MemberService {
     params = params.append('gender', userParams.gender);
     params = params.append('orderBy', userParams.orderBy);
 
-    return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params);
+    return this.getPaginatedResult<Member[]>(
+      this.baseUrl + 'users',
+      params
+    ).pipe(
+      map((res) => {
+        this.memberCache.set(Object.values(userParams).join('-'), res);
+        return res;
+      })
+    );
   }
 
   getMember(username: string) {
@@ -63,8 +77,6 @@ export class MemberService {
           );
         }
 
-        console.log(paginatedResult.result);
-        
         return paginatedResult;
       })
     );
