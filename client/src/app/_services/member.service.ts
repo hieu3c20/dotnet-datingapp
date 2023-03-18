@@ -62,6 +62,8 @@ export class MemberService {
           );
         }
 
+        console.log(paginatedResult.result);
+        
         return paginatedResult;
       })
     );
