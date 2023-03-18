@@ -3,14 +3,16 @@
 </div>
 
 <div class="container mt-3 d-flex justify-content-start">
-    <form
+  <form
     #form="ngForm"
     class="form-inline mb-3 d-flex justify-content-center"
     (ngSubmit)="loadMembers()"
     autocomplete="off"
   >
     <div class="form-group d-flex justify-content-center">
-      <label class="text-center m-auto" style="padding-right: 10px;">Age from: </label>
+      <label class="text-center m-auto" style="padding-right: 10px"
+        >Age from:
+      </label>
       <input
         type="number"
         class="form-control ml-1"
@@ -21,7 +23,7 @@
     </div>
 
     <div class="form-group px-2 d-flex justify-content-center">
-      <label class="m-auto" style="padding-right: 10px;">Age to: </label>
+      <label class="m-auto" style="padding-right: 10px">Age to: </label>
       <input
         type="number"
         class="form-control ml-1"
@@ -32,23 +34,65 @@
     </div>
 
     <div class="form-group px-2 d-flex justify-content-center">
-      <label class="m-auto" style="padding-right: 10px;" >Show: </label>
-      <select [(ngModel)]="userParams.gender" name="gender" style="width: 130px;" class="form-control ml-1">
-        <option *ngFor="let gender of genderList" [value]="gender.value" >
-          {{gender.display}}
+      <label class="m-auto" style="padding-right: 10px">Show: </label>
+      <select
+        [(ngModel)]="userParams.gender"
+        name="gender"
+        style="width: 130px"
+        class="form-control ml-1"
+      >
+        <option *ngFor="let gender of genderList" [value]="gender.value">
+          {{ gender.display }}
         </option>
       </select>
     </div>
   </form>
 
-
-  <button (click)="loadMembers()" class="btn btn-primary ml-1" style="height: 37px; margin-right: 5px;" type="submit">
+  <button
+    (click)="loadMembers()"
+    class="btn btn-primary ml-1"
+    style="height: 37px; margin-right: 5px"
+    type="submit"
+  >
     Apply Filters
   </button>
 
-  <button (click)="resetFilters()" class="btn btn-info ml-1" style="height: 37px;" type="submit">
+  <button
+    (click)="resetFilters()"
+    class="btn btn-info ml-1"
+    style="height: 37px; margin-right: 5px"
+    type="submit"
+  >
     Reset Filters
   </button>
+
+  <div class="col">
+    <div class="btn-group float-right">
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="height: 37px; margin-right: 5px"
+        name="orderBy"
+        [(ngModel)]="userParams.orderBy"
+        btnRadio="lastActive"
+        (click)="loadMembers()"
+      >
+        Last Active
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="height: 37px"
+        name="orderBy"
+        [(ngModel)]="userParams.orderBy"
+        btnRadio="created"
+        (click)="loadMembers()"
+      >
+        Newest Members
+      </button>
+    </div>
+  </div>
 </div>
 
 <div class="row">
