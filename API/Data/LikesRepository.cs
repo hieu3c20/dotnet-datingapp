@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class LikeRepository : ILikesRepository
+    public class LikesRepository : ILikesRepository
     {
         private readonly DataContext _context;
 
-        public LikeRepository(DataContext context)
+        public LikesRepository(DataContext context)
         {
             this._context = context;
         }
@@ -57,7 +57,12 @@ namespace API.Data
                 .ToListAsync();
         }
 
-        public async Task<AppUser> GetUserWithLikes(int userId)
+    public Task GetUserWithLiked(int sourceUserId)
+    {
+      throw new NotImplementedException();
+    }
+
+    public async Task<AppUser> GetUserWithLikes(int userId)
         {
             return await _context.Users
                 .Include(x => x.LikedUsers)
