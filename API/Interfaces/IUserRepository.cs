@@ -22,5 +22,5 @@ namespace API.Interfaces
         Task<PagedList<MemberDto>> GetMembersAsync(UserParam userParams);
 
         Task<MemberDto> GetMemberAsync(string username);
-    }
+  }
 }
