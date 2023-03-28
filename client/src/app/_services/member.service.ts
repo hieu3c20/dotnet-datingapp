@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { Member } from '../_models/member';
 import { AccountService } from './account.service';
 import { User } from '../_models/user';
+import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +48,7 @@ export class MemberService {
       return of(response);
     }
 
-    let params = this.getPaginationHeaders(
+    let params = getPaginationHeaders(
       userParams.pageNumber,
       userParams.pageSize
     );
@@ -57,9 +58,10 @@ export class MemberService {
     params = params.append('gender', userParams.gender);
     params = params.append('orderBy', userParams.orderBy);
 
-    return this.getPaginatedResult<Member[]>(
+    return getPaginatedResult<Member[]>(
       this.baseUrl + 'users',
-      params
+      params,
+      this.http
     ).pipe(
       map((res) => {
         this.memberCache.set(Object.values(userParams).join('-'), res);
@@ -104,33 +106,12 @@ export class MemberService {
   }
 
   getLikes(predicate: string, pageNumber, pageSize) {
-    let params = this.getPaginationHeaders(pageNumber, pageSize);
+    let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('predicate', predicate);
-    return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params);
-  }
-
-  private getPaginatedResult<T>(url, params) {
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
-    return this.http.get<T>(url, { observe: 'response', params }).pipe(
-      map((res) => {
-        paginatedResult.result = res.body;
-        if (res.headers.get('Pagination') !== null) {
-          paginatedResult.pagination = JSON.parse(
-            res.headers.get('Pagination')
-          );
-        }
-
-        return paginatedResult;
-      })
+    return getPaginatedResult<Partial<Member[]>>(
+      this.baseUrl + 'likes',
+      params,
+      this.http
     );
-  }
-
-  private getPaginationHeaders(pageNumber: number, pageSize: number) {
-    let params = new HttpParams();
-
-    params = params.append('pageNumber', pageNumber.toString());
-    params = params.append('pageSize', pageSize.toString());
-
-    return params;
   }
 }
