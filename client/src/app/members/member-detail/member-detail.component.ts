@@ -21,19 +21,22 @@ export class MemberDetailComponent implements OnInit {
   member: Member;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
-  activeTab: TabDirective
+  activeTab: TabDirective;
 
-  messages: Message[] = []
-
+  messages: Message[] = [];
 
   constructor(
     private memberService: MemberService,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
     this.loadMember();
+
+    this.route.queryParams.subscribe((params) => {
+      params.tab ? this.selectTab(params.tab) : this.selectTab(0);
+    });
 
     this.galleryOptions = [
       {
@@ -76,10 +79,14 @@ export class MemberDetailComponent implements OnInit {
       });
   }
 
+  selectTab(tabId: number) {
+    this.memberTabs.tabs[tabId].active = true;
+  }
+
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
-      this.loadMessages()
+      this.loadMessages();
     }
   }
 }
