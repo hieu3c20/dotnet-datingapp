@@ -1,3 +1,11 @@
 .img-circle {
   max-height: 50px;
 }
+
+.btn-danger {
+  color: black;
+}
+
+.btn-danger:hover {
+  color: #fff;
+}
